@@ -25,9 +25,13 @@ $MINICONDA_CACHE -b -p $CONDA_HOME #&> /dev/null
 echo "-----> Installing Dependencies..."
 $CONDA_BIN/conda update --yes --quiet conda #&> /dev/null
 $CONDA_BIN/conda install --yes --quiet pip #&> /dev/null
+if [ -e "$ROOT/conda_requirements.txt" ]; then
+    echo "-----> Installing conda packages from conda_requirements.txt..."
+	$CONDA_BIN/conda install --yes --quiet --file "$ROOT/conda_requirements.txt" #&> /dev/null
+fi
 if [ -e "$ROOT/requirements.txt" ]; then
-    echo "-----> Installing packages from requirements.txt..."
-	$CONDA_BIN/conda install --yes --quiet --file "$ROOT/requirements.txt" #&> /dev/null
+	echo "-----> Installing pip packages from requirements.txt..."
+	$CONDA_BIN/pip install --yes --quiet -r "$ROOT/requirements.txt" #&> /dev/null
 fi
 #
 echo "-----> Changing hardcoded paths..."
