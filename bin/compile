@@ -16,7 +16,7 @@
 #
 
 echo "-----> Starting compile step..."
-ROOT=$1
+BUILD_DIR=$1
 CACHE=$2
 
 BASH=$(which bash)
@@ -27,6 +27,8 @@ CONDA_BIN="$CONDA_HOME/bin"
 MINICONDA_FILE="Miniconda-latest-Linux-x86_64.sh"
 MINICONDA_URI="http://repo.continuum.io/miniconda/$MINICONDA_FILE"
 MINICONDA_CACHE="$CACHE/$MINICONDA_FILE"
+
+PROFILE_PATH="$BUILD_DIR/.profile.d/conda.sh"
 
 echo "-----> Preparing Python Environment..."
 if [ ! -e $MINICONDA_CACHE ] ; then
@@ -41,20 +43,23 @@ $MINICONDA_CACHE -b -p $CONDA_HOME #&> /dev/null
 echo "-----> Installing Dependencies..."
 $CONDA_BIN/conda update --yes --quiet conda #&> /dev/null
 $CONDA_BIN/conda install --yes --quiet pip #&> /dev/null
-if [ -e "$ROOT/conda_requirements.txt" ]; then
+if [ -e "$BUILD_DIR/conda_requirements.txt" ]; then
     echo "-----> Installing conda packages from conda_requirements.txt..."
-	$CONDA_BIN/conda install --yes --quiet --file "$ROOT/conda_requirements.txt" #&> /dev/null
+	$CONDA_BIN/conda install --yes --quiet --file "$BUILD_DIR/conda_requirements.txt" #&> /dev/null
 fi
-if [ -e "$ROOT/requirements.txt" ]; then
+if [ -e "$BUILD_DIR/requirements.txt" ]; then
 	echo "-----> Installing pip packages from requirements.txt..."
-	$CONDA_BIN/pip install --quiet -r "$ROOT/requirements.txt" #&> /dev/null
+	$CONDA_BIN/pip install --quiet -r "$BUILD_DIR/requirements.txt" #&> /dev/null
 fi
 
 $CONDA_BIN/conda clean -pt
 
 #
-echo "-----> Changing hardcoded paths..."
-grep -rlI $ROOT . | xargs sed -i.bak "s|$ROOT|.|g"
+echo "-----> Fixing paths..."
+grep -rlI $BUILD_DIR . | xargs sed -i.bak "s|$BUILD_DIR|.|g"
 #
+
+mkdir -p $(dirname $PROFILE_PATH)
+echo "export PATH=$HOME/app/.conda/bin:$PATH" >> $PROFILE_PATH
 
 echo "-----> Finished compile step"
