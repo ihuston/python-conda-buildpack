@@ -6,7 +6,7 @@ The `python-conda-buildpack` is a [Cloud Foundry][] buildpack which uses [Contin
 ## Usage
 To use this buildpack specify the URI of the repository when pushing a Python web application to Cloud Foundry.
 
-    cf push --buildpack https://github.com/ihuston/python-conda-buildpack.git
+    cf push -b https://github.com/ihuston/python-conda-buildpack.git
 
 
 ## Python Dependencies
