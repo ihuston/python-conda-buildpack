@@ -23,8 +23,20 @@ BASH=$(which bash)
 WGET=$(which wget)
 CONDA_HOME="$1/.conda"
 CONDA_BIN="$CONDA_HOME/bin"
+RUNTIME="$BUILD_DIR/runtime.txt"
 
-MINICONDA_FILE="Miniconda-latest-Linux-x86_64.sh"
+if [ -e $RUNTIME ]; then
+    PYTHON_VERSION=$(cut -d- -f2 $RUNTIME)
+    if [ ${PYTHON_VERSION:0:1} -eq 3 ]; then
+        PYTHON_MAJOR_VERSION=3
+    else
+        PYTHON_MAJOR_VERSION=""
+    fi
+    MINICONDA_FILE="Miniconda$PYTHON_MAJOR_VERSION-$PYTHON_VERSION-Linux-x86_64.sh"
+else
+    MINICONDA_FILE="Miniconda-latest-Linux-x86_64.sh"
+fi
+
 MINICONDA_URI="http://repo.continuum.io/miniconda/$MINICONDA_FILE"
 MINICONDA_CACHE="$CACHE/$MINICONDA_FILE"
 
