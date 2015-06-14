@@ -18,8 +18,9 @@
 BUILD_DIR=$1
 
 # Exit early if app is clearly not Python.
-if [ ! -f $BUILD_DIR/requirements.txt ]; then
-  exit 1
+count=`ls -1 $BUILD_DIR/*.py 2>/dev/null | wc -l`
+if [ $count == 0 ];
+    then exit 1
 fi
 
 echo Python
