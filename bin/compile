@@ -33,7 +33,7 @@ if [ -e $RUNTIME ]; then
     else
         PYTHON_MAJOR_VERSION=""
     fi
-    MINICONDA_FILE="Miniconda$PYTHON_MAJOR_VERSION-$PYTHON_VERSION-Linux-x86_64.sh"
+    MINICONDA_FILE="Miniconda$PYTHON_MAJOR_VERSION-latest-Linux-x86_64.sh"
 else
     MINICONDA_FILE="Miniconda-latest-Linux-x86_64.sh"
 fi
