@@ -1,3 +1,6 @@
+## DEPRECATED
+**This buildpack is no longer maintained. The official [Cloud Foundry Python buildpack](https://docs.cloudfoundry.org/buildpacks/python/index.html) includes [conda package management](https://docs.cloudfoundry.org/buildpacks/python/index.html#miniconda) as of v1.5.6** 
+
 # Python Conda Buildpack
 
 The `python-conda-buildpack` is a [Cloud Foundry][] buildpack which uses [Continuum's conda][] for package management.
